@@ -33,7 +33,8 @@ export const signUp = async (req, res, next) => {
             expiresIn: 86400 //24 hrs
         });
     
-        res.status(200).json({token});
+        res.cookie("token", token);
+        res.status(200).json({ token });
     } catch (err) {
         res.status(500).send(err);
     }
@@ -61,8 +62,28 @@ export const signIn = async (req, res) => {
             expiresIn: 86400
         })
         // Generar token y enviarlo (necesitas implementar la lógica para generar el token)
-        res.json({ token: token });
+        res.cookie("token", token);
+        res.json({ token: token});
     } catch (error) {
         res.status(500).json({ message: 'Error del servidor' });
     }
 };
+
+
+
+export const verifyToken = async (req, res) =>{
+    const { token } = req.cookies
+    if (!token) return res.status(401).json({message: "No Autorizado"})
+    jwt.verify(token, process.env.SECRET, async (err, usuario) =>{
+        if (err) return res.status(401).json({ message: "No Autorizado"});
+        const userFound = await User.getById(usuario.id)
+        if(!userFound) return res.status(401).json({ message: "No Autorizado"})
+
+
+    return res.json({
+        id: userFound.id,
+        usuario: userFound.usuario,
+        correo: userFound.correo
+    })
+    })
+}

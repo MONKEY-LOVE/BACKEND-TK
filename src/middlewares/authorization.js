@@ -8,7 +8,7 @@ config();
 
 export const validadorToken = async (req, res, next) => {
     try{
-        const token = req.headers["x-access-token"];
+        const token = req.cookies.token
     
         if(!token) return res.status(403).json({message:'No token provided'})
     
