@@ -24,6 +24,17 @@ export const validadorToken = async (req, res, next) => {
         return res.status(401).json({message:'Unauthorized'})
        }
 };
+export const isProfesor = async(req,res,next)=>{
+   const user = await User.getById(req.id)
+   const filter = 'profesor'
+   const idRol = await Role.getByName(filter)
+   const validateProfesor = await RoleUsuario.getByUserRoles( user.id, idRol.id)
+   if(validateProfesor){
+      next();
+      return;
+   };
+   return res.status(403).json({message:'require profesor role'})
+}
 
 export const isModerator = async(req,res,next)=>{
     const user = await User.getById(req.id)
