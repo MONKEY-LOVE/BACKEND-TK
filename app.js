@@ -6,6 +6,10 @@ import authRoutes from './src/routes/auth.routes.js'
 import cookieParser from "cookie-parser";
 import cors from 'cors'
 
+app.use(function(req, res, next) {
+    res.setHeader('Host', 'localhost:5173');
+    next();
+  });
 
 app.use(cors({
     origin: 'http://localhost:5173',
