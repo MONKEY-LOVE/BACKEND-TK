@@ -35,15 +35,15 @@ import bcrypt from 'bcrypt'
       }
   },
   create: async (data) => {
-    const { nombre, apellido_pat, apellido_mat, run, usuario, correo, contrasena } = data;
+    const { nombre, apellido_pat, apellido_mat, run, usuario, correo, contrasena, id_profesor } = data;
     try {
         let password = contrasena;
         const salt = await bcrypt.genSalt(10);
         password = await bcrypt.hash(password, salt);
         const result = await pool.query(
-            `INSERT INTO usuarios(nombre, apellido_pat, apellido_mat, run, usuario, correo, contrasena) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-            [nombre, apellido_pat, apellido_mat, run, usuario, correo, password]
+            `INSERT INTO usuarios(nombre, apellido_pat, apellido_mat, run, usuario, correo, contrasena, id_profesor) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+            [nombre, apellido_pat, apellido_mat, run, usuario, correo, password, id_profesor]
         );
 
         if (result.rowCount > 0) {

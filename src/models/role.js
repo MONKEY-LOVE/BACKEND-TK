@@ -6,7 +6,7 @@ import { json } from "express";
     getAll: async()=>{
         try{
            const result = await pool.query(`SELECT * FROM roles`) 
-           return result;
+          return result;
         }
         catch(err){
             return err;

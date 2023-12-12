@@ -1,0 +1,12 @@
+{
+    "source": {
+      "include": ["./src"],
+      "includePattern": ".+\\.js(doc|x)?$",
+      "exclude": ["node_modules"]
+    },
+    "plugins": [],
+    "opts": {
+      "destination": "docs/"
+    }
+  }
+  
